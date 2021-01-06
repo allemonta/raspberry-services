@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  plex:
+    container_name: plex
+    image: ghcr.io/linuxserver/plex:latest
+    restart: unless-stopped
+    environment:
+      - PUID=998
+      - PGID=100
+      - VERSION=docker
+      - UMASK_SET=022
+      - PLEX_CLAIM=${PLEX_CLAIM_CODE}
+    network_mode: host
+    volumes:
+      - ${CONFIG_PATH}/plex/config:/config
+      - ${MEDIA_PATH}/plex-tv:/tv
+      - ${MEDIA_PATH}/plex-movies:/movies
+    ports:
+      - ${PLEX_PORT}:32400

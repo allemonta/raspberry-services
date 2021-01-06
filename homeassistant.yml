@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/raspberrypi${RASPBERRY_VERSION}-homeassistant:stable
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Rome
+    volumes:
+      - ${CONFIG_PATH}/config:/config
+      - ${MEDIA_PATH}:/media
+    network_mode: host
