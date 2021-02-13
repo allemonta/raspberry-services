@@ -12,8 +12,8 @@ services:
       - DNS2=8.8.4.4
       - DNSSEC=true
     volumes:
-      - /home/pi/pihole/data:/etc/pihole/
-      - /home/pi/pihole/dnsmasq.d/:/etc/dnsmasq.d/
+      - ${CONFIG_PATH}/pihole/data:/etc/pihole/
+      - ${CONFIG_PATH}/pihole/dnsmasq.d/:/etc/dnsmasq.d/
     ports:
       - 53:53/tcp
       - 53:53/udp
