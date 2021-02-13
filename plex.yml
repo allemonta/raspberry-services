@@ -16,5 +16,3 @@ services:
       - ${CONFIG_PATH}/plex:/config
       - ${MEDIA_PATH}/plex-tv:/tv
       - ${MEDIA_PATH}/plex-movies:/movies
-    ports:
-      - ${PLEX_PORT}:32400
