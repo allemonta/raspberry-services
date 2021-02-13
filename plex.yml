@@ -3,7 +3,7 @@ version: "3.8"
 services:
   plex:
     container_name: plex
-    image: ghcr.io/linuxserver/plex:latest
+    image: lsioarmhf/plex
     restart: unless-stopped
     environment:
       - PUID=998
