@@ -6,16 +6,18 @@
     "start:heimdall": "npm run stop:heimdall && docker-compose -f heimdall.yml up -d",
     "start:homeassistant": "npm run stop:homeassistant && docker-compose -f homeassistant.yml up -d",
     "start:pihole": "npm run stop:pihole && docker-compose -f pihole.yml up -d",
+    "start:plex": "npm run stop:plex && docker-compose -f plex.yml up -d",
 
     "stop:transmission": "docker-compose -f transmission.yml -v --remove-orphans down",
     "stop:heimdall": "docker-compose -f heimdall.yml -v --remove-orphans down",
     "stop:homeassistant": "docker-compose -f homeassistant.yml -v --remove-orphans down",
     "stop:pihole": "docker-compose -f pihole.yml -v --remove-orphans down",
+    "stop:plex": "docker-compose -f plex.yml -v --remove-orphans down",
 
     "config:transmission": "docker-compose -f transmission.yml config",
     "config:heimdall": "docker-compose -f heimdall.yml config",
     "config:homeassistant": "docker-compose -f homeassistant.yml config",
     "config:pihole": "docker-compose -f pihole.yml config",
-    "testt": "echo $1"
+    "config:plex": "docker-compose -f plex.yml config"
   }
 }
