@@ -10,7 +10,7 @@ services:
       - PGID=1000
       - TZ=Europe/Rome
     volumes:
-      - ${CONFIG_PATH}/heimdall/config:/config
+      - ${CONFIG_PATH}/heimdall:/config
     ports:
       - ${HEIMDALL_HTTP_PORT}:80
       - ${HEIMDALL_HTTPS_PORT}:443

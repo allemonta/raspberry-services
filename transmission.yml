@@ -13,7 +13,7 @@ services:
       - USER=${TRANSMISSION_USERNAME}
       - PASS=${TRANSMISSION_PASSWORD}
     volumes:
-      - ${CONFIG_PATH}/transmission/config:/config
+      - ${CONFIG_PATH}/transmission:/config
       - ${MEDIA_PATH}/torrents:/downloads/complete
     ports:
       - ${TRANSMISSION_PORT}:9091

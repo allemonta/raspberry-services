@@ -13,7 +13,7 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
     volumes:
-      - ${CONFIG_PATH}/plex/config:/config
+      - ${CONFIG_PATH}/plex:/config
       - ${MEDIA_PATH}/plex-tv:/tv
       - ${MEDIA_PATH}/plex-movies:/movies
     ports:
