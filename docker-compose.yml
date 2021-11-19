@@ -8,23 +8,6 @@ networks:
         - subnet: 10.0.0.0/24
 
 services:
-  heimdall:
-    container_name: heimdall
-    image: ghcr.io/linuxserver/heimdall
-    restart: always
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
-    volumes:
-      - ${CONFIGS_PATH}/heimdall/config:/config
-    ports:
-      - ${HEIMDALL_HTTP_PORT}:80
-      - ${HEIMDALL_HTTPS_PORT}:443
-    networks:
-      net:
-        ipv4_address: 10.0.0.1
-
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -118,3 +101,20 @@ services:
     networks:
       net:
         ipv4_address: 10.0.0.5
+
+  heimdall:
+    container_name: heimdall
+    image: ghcr.io/linuxserver/heimdall
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ${CONFIGS_PATH}/heimdall/config:/config
+    ports:
+      - ${HEIMDALL_HTTP_PORT}:80
+      - ${HEIMDALL_HTTPS_PORT}:443
+    networks:
+      net:
+        ipv4_address: 10.0.0.6
