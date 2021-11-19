@@ -120,14 +120,15 @@ services:
         ipv4_address: 10.0.0.6
 
   samba:
+    container_name: samba
     image: dperson/samba
     environment:
       TZ: 'Europe/Rome'
     ports:
-      - "137:137/udp"
-      - "138:138/udp"
-      - "139:139/tcp"
-      - "445:445/tcp"
+      - 137:137/udp
+      - 138:138/udp
+      - 139:139/tcp
+      - 445:445/tcp
     tmpfs:
       - /tmp
     restart: unless-stopped
