@@ -134,9 +134,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - /mnt:/mnt:z
-      - /mnt2:/mnt2:z
-    command: '-s "Mount;/mnt" ${SAMBA_USERS_COMMAND} -p'
+      - /${DRIVE_PATH}:/mnt:z
+    command: '-s "Drive;/mnt" ${SAMBA_USERS_COMMAND} -p'
     networks:
       net:
         ipv4_address: 10.0.0.6
