@@ -67,6 +67,7 @@ services:
       - SERVERPORT=51820
     dns:
       - 10.0.0.2 # Pi-hole IP
+      - 8.8.8.8
     volumes:
       - ${CONFIGS_PATH}/wireguard/config:/config
       - /lib/modules:/lib/modules
