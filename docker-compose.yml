@@ -1,0 +1,121 @@
+version: "3.8"
+
+networks:
+  net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+
+services:
+  heimdall:
+    container_name: heimdall
+    image: ghcr.io/linuxserver/heimdall
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ${CONFIGS_PATH}/heimdall/config:/config
+    ports:
+      - ${HEIMDALL_HTTP_PORT}:80
+      - ${HEIMDALL_HTTPS_PORT}:443
+    networks:
+      net:
+        ipv4_address: 10.0.0.1
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Rome
+      - WEBPASSWORD=${PIHOLE_PASSWORD}
+      - DNS1=8.8.8.8
+      - DNS2=8.8.4.4
+      - DNSSEC=true
+    volumes:
+      - ${CONFIGS_PATH}/pihole/config:/etc/pihole/
+      - ${CONFIGS_PATH}/pihole/dnsmasq.d/:/etc/dnsmasq.d/
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - ${PIHOLE_PORT}:80
+    cap_add:
+      - NET_ADMIN
+    networks:
+      net:
+        ipv4_address: 10.0.0.2
+
+  plex:
+    container_name: plex
+    image: lscr.io/linuxserver/plex
+    restart: always
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM_CODE}
+    volumes:
+      - ${CONFIGS_PATH}/plex/config:/config
+      - ${MEDIA_PATH}/plex-tv:/tv
+      - ${MEDIA_PATH}/plex-movies:/movies
+    ports:
+      - ${PLEX_PORT}:32400
+    networks:
+      net:
+        ipv4_address: 10.0.0.3
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard
+    container_name: wireguard
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PEERS=10
+      - INTERNAL_SUBNET=10.1.0.0
+      - PEERDNS=10.0.0.3
+      - SERVERPORT=51820
+    dns:
+      - 10.0.0.2 # Pi-hole IP
+    volumes:
+      - ${CONFIGS_PATH}/wireguard/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - ${WIREGUARD_PORT}:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    depends_on:
+      - pihole
+    networks:
+      net:
+        ipv4_address: 10.0.0.4
+
+  transmission:
+    container_name: transmission
+    image: ghcr.io/linuxserver/transmission
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - TRANSMISSION_WEB_HOME=/combustion-release/ 
+      - USER=${TRANSMISSION_USERNAME}
+      - PASS=${TRANSMISSION_PASSWORD}
+    volumes:
+      - ${CONFIG_PATH}/transmission/config:/config
+      - ${MEDIA_PATH}/torrents:/downloads/complete
+    ports:
+      - ${TRANSMISSION_PORT}:9091
+      - 51413:51413
+      - 51413:51413/udp
+    networks:
+      net:
+        ipv4_address: 10.0.0.5
