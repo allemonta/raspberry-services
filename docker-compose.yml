@@ -78,7 +78,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PEERS=10
+      - PEERS=${PEERS}
       - INTERNAL_SUBNET=10.1.0.0
       - PEERDNS=10.0.0.3
       - SERVERPORT=51820
