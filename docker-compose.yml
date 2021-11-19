@@ -138,4 +138,4 @@ services:
     command: '-s "Drive;/mnt" ${SAMBA_USERS_COMMAND} -p'
     networks:
       net:
-        ipv4_address: 10.0.0.6
+        ipv4_address: 10.0.0.7
