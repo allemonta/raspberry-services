@@ -63,7 +63,7 @@ services:
       - TZ=Europe/London
       - PEERS=${PEERS}
       - INTERNAL_SUBNET=10.1.0.0
-      - PEERDNS=10.2.0.3
+      - PEERDNS=10.2.0.2
       - SERVERPORT=51820
     dns:
       - 10.2.0.2 # Pi-hole IP
