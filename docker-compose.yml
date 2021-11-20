@@ -5,7 +5,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 10.0.0.0/24
+        - subnet: 10.2.0.0/24
 
 services:
   pihole:
@@ -29,7 +29,7 @@ services:
       - NET_ADMIN
     networks:
       net:
-        ipv4_address: 10.0.0.2
+        ipv4_address: 10.2.0.2
 
   plex:
     container_name: plex
@@ -48,7 +48,7 @@ services:
       - ${PLEX_PORT}:32400
     networks:
       net:
-        ipv4_address: 10.0.0.3
+        ipv4_address: 10.2.0.3
 
   wireguard:
     image: lscr.io/linuxserver/wireguard
@@ -63,10 +63,10 @@ services:
       - TZ=Europe/London
       - PEERS=${PEERS}
       - INTERNAL_SUBNET=10.1.0.0
-      - PEERDNS=10.0.0.3
+      - PEERDNS=10.2.0.3
       - SERVERPORT=51820
     dns:
-      - 10.0.0.2 # Pi-hole IP
+      - 10.2.0.2 # Pi-hole IP
       - 8.8.8.8
     volumes:
       - ${CONFIGS_PATH}/wireguard/config:/config
@@ -75,9 +75,11 @@ services:
       - ${WIREGUARD_PORT}:51820/udp
     depends_on:
       - pihole
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
     networks:
       net:
-        ipv4_address: 10.0.0.4
+        ipv4_address: 10.2.0.4
 
   transmission:
     container_name: transmission
@@ -99,7 +101,7 @@ services:
       - 51413:51413/udp
     networks:
       net:
-        ipv4_address: 10.0.0.5
+        ipv4_address: 10.2.0.5
 
   heimdall:
     container_name: heimdall
@@ -116,7 +118,7 @@ services:
       - ${HEIMDALL_HTTPS_PORT}:443
     networks:
       net:
-        ipv4_address: 10.0.0.6
+        ipv4_address: 10.2.0.6
 
   samba:
     container_name: samba
@@ -138,4 +140,4 @@ services:
     command: '-s "Drive;/mnt;yes;no;no;all;none" ${SAMBA_USERS_COMMAND} -p'
     networks:
       net:
-        ipv4_address: 10.0.0.7
+        ipv4_address: 10.2.0.7
