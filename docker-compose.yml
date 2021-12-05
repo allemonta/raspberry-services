@@ -42,8 +42,7 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     volumes:
       - ${CONFIGS_PATH}/plex/config:/config
-      - ${MEDIA_PATH}/plex-tv:/tv
-      - ${MEDIA_PATH}/plex-movies:/movies
+      - ${MEDIA_PATH}:/media
     ports:
       - ${PLEX_PORT}:32400
     networks:
@@ -95,6 +94,7 @@ services:
     volumes:
       - ${CONFIGS_PATH}/transmission/config:/config
       - ${MEDIA_PATH}/torrents:/downloads/complete
+      - ${DRIVE_PATH}/inconplete-torrents:/downloads/incomplete
     ports:
       - ${TRANSMISSION_PORT}:9091
       - 51413:51413
